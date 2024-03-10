@@ -1,0 +1,64 @@
+<div *ngIf="modalType == 'image'" class="modal-image">
+    <div class="modal" [class.d-block]="mostrarModal" (click)="modalCancelButton()">
+        <div class="modal-dialog modal-dialog-centered modal-lg modal-ci">
+            <div class="modal-content-image" (click)="$event.stopPropagation()">
+                <div class="modal-image-body">
+                    <img [src]="modalImage" alt="Imagen modal" class="img-fluid custom-img">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-backdrop" [class.d-block]="mostrarModal"></div>
+</div>
+
+<div *ngIf="modalType == 'message' || modalType == 'response'" class="modal-response">
+    <div class="modal" [class.d-block]="mostrarModal" tabindex="-1" role="dialog" (click)="modalCancelButton()">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content" (click)="$event.stopPropagation()">
+                <div class="modal-header no-border">
+                    <h5 class="modal-title"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                        (click)="modalCancelButton()">
+                        <i class='bx bx-x'></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="title">{{modalTitle}}</div>
+                    <div class="content">{{modalBody}}</div>
+                </div>
+                <div class="modal-footer no-border">
+                    <button *ngIf="modalType === 'response'" type="button" class="btn btn-secondary" data-dismiss="modal"
+                        (click)="modalCancelButton()">Cancelar</button>
+                    <button type="button" class="btn btn-primary" (click)="modalOkButton()">Aceptar</button>
+                </div>
+            </div>
+        </div>
+        <div class="modal-backdrop message" [class.d-block]="mostrarModal"></div>
+    </div>
+</div>
+
+<div *ngIf="modalType == 'table'" class="modal-response">
+    <div class="modal" [class.d-block]="mostrarModal" tabindex="-1" role="dialog" (click)="modalCancelButton()">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content" (click)="$event.stopPropagation()">
+                <div class="modal-header no-border">
+                    <h5 class="modal-title"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                        (click)="modalCancelButton()">
+                        <i class='bx bx-x'></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="title">{{modalTitle}}</div>
+                    <div class="table-container">
+                        <div *ngFor="let param of getObjectKeys(modalTableData)" class="row-container">
+                          <div class="header-column">{{param}}</div>
+                          <div class="content-column">{{modalTableData[param]}}</div>
+                        </div>
+                      </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-backdrop message" [class.d-block]="mostrarModal"></div>
+    </div>
+</div>

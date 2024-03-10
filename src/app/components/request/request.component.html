@@ -1,0 +1,121 @@
+<div class="new-request-screen" *ngIf="!showSuccessMessage">
+    <a class="logo-inacif" routerLink="/email/confirmed">
+        <img class="logo" src="../../assets/img/logo-inacif.png" alt="logo">
+    </a>
+    <div class="separator"></div>
+    <div class="form-title">
+        Formulario para solicitud de persona desaparecida
+    </div>
+    <div class="content-container container">
+        <h4>INFORMACIÓN DEL SOLICITANTE</h4>
+        <span class="form-subtitle">CAMPOS OBLIGATORIOS CON (*)</span>
+        <form>
+            <div class="form-group">
+                <!-- APPLICANT INFO -->
+                <div class="row">
+                    <div *ngFor="let field of getFilteredFields('applicant')" [ngClass]="getFieldClass(field)">
+                        <!-- RADIO BUTTONS -->
+                        <div *ngIf="field.type == 'radioButton'" class="radio-btn-container">
+                            <label class="form-field-name">{{field.required ? '* ' : '' }}{{field.fieldName}}:</label>
+                            <div *ngFor="let option of field.options" class="form-check">
+                                <input class="form-check-input" [name]="option" type="radio" [value]="option" [(ngModel)]="field.value">
+                                <label class="form-check-label" for="option">
+                                    {{option}}
+                                </label>
+                            </div>
+                        </div>
+                        <!-- TEXT FIELDS | DATE FIELDS | NUMBER FIELDS -->
+                        <div *ngIf="field.type === 'text' || field.type === 'number' || field.type === 'date'"
+                            class="default-input-container">
+                            <div class="form-group">
+                                <label class="form-field-name" [for]="field.fieldName">{{field.required ? '* ' : '' }}{{field.fieldName}}</label>
+                                <input [type]="field.type" [name]="field.fieldName" class="form-control" [id]="field.fieldName" [(ngModel)]="field.value">
+                            </div>
+                        </div>
+                        <!-- SELECTS -->
+                        <div *ngIf="field.type === 'select'" class="select-container">
+                            <div class="form-group">
+                                <label class="form-field-name" [for]="field.fieldName">{{field.required ? '* ' : '' }}{{field.fieldName}}</label>
+                                <select class="form-control" [id]="field.fieldName" [name]="field.fieldName" [(ngModel)]="field.value">
+                                    <option *ngFor="let option of field.options" [value]="option">{{option}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- IMAGES -->
+                        <div *ngIf="field.type === 'image'" class="default-input-container">
+                            <div class="form-group">
+                                <label class="form-field-name" [for]="field.fieldName">{{field.required ? '* ' : '' }}{{field.fieldName}}</label>
+                                <input type="file" accept="image/*" [name]="field.fieldName" class="form-control" [id]="field.fieldName" [(ngModel)]="field.value">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- MISSING PERSON INFO -->
+                <div class="row">
+                    <h4>INFORMACIÓN DE LA PERSONA DESPARECIDA</h4>
+                    <span class="form-subtitle">CAMPOS OBLIGATORIOS CON (*)</span>
+                    <div *ngFor="let field of getFilteredFields('dissappeared')" [ngClass]="getFieldClass(field)">
+                        <!-- RADIO BUTTONS -->
+                        <div *ngIf="field.type == 'radioButton'" class="radio-btn-container">
+                            <label class="form-field-name" class="form-field-name">{{field.required ? '* ' : '' }}{{field.fieldName}}:</label>
+                            <div *ngFor="let option of field.options" class="form-check">
+                                <input class="form-check-input" [name]="option" type="radio" [value]="option" [(ngModel)]="field.value">
+                                <label class="form-check-label" for="option">
+                                    {{option}}
+                                </label>
+                            </div>
+                        </div>
+                        <!-- TEXT FIELDS | DATE FIELDS | NUMBER FIELDS -->
+                        <div *ngIf="field.type === 'text' || field.type === 'number' || field.type === 'date'"
+                            class="default-input-container">
+                            <div class="form-group">
+                                <label class="form-field-name" [for]="field.fieldName">{{field.required ? '* ' : '' }}{{field.fieldName}}</label>
+                                <input [type]="field.type" [name]="field.fieldName" class="form-control" [id]="field.fieldName" [(ngModel)]="field.value">
+                            </div>
+                        </div>
+                        <!-- SELECTS -->
+                        <div *ngIf="field.type === 'select'" class="select-container">
+                            <div class="form-group">
+                                <label class="form-field-name" [for]="field.fieldName">{{field.required ? '* ' : '' }}{{field.fieldName}}</label>
+                                <select class="form-control" [id]="field.fieldName" [name]="field.fieldName" [(ngModel)]="field.value">
+                                    <option *ngFor="let option of field.options" [value]="option">{{option}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- IMAGES -->
+                        <div *ngIf="field.type === 'image'" class="default-input-container">
+                            <div class="form-group">
+                                <label class="form-field-name" [for]="field.fieldName">{{field.required ? '* ' : '' }}{{field.fieldName}}</label>
+                                <input type="file" accept="image/*" [name]="field.fieldName" class="form-control" [id]="field.fieldName" (change)="onFileChange($event)">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <button class="btn btn-primary" (click)="createNewRequest()">Enviar Solicitud</button>
+                    <!-- <button class="btn btn-primary" routerLink="/email/successfull">Enviar Solicitud</button> -->
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="background" *ngIf="showSuccessMessage">
+    <div class="block-form">
+        <div class="block">
+            <a class="logo-inacif" href="/solicitud">
+                <img class="logo" src="../../assets/img/logo-inacif.png" alt="logo">
+            </a>
+            <div class="title">¡Solicitud Enviada Correctamente!</div>
+            <div class="image">
+                <img src="../../assets/img/check.png" alt="logo">
+            </div>
+            <div class="text">Recibirá un correo con los detalles que debe seguir para continuar con el proceso de la solicitud</div>
+            <div class="block-button">
+                <button class="btn btn-success" (click)="reloadPage()">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<app-modal data-toggle="modal" [modalType]="modalType" [mostrarModal]="showModal" [modalTitle]="modalTitle" [modalBody]="modalBody" (cancelButton)="closeAction()" (okButton)="okButton()"></app-modal>

@@ -1,0 +1,110 @@
+.modal {
+  width: 100%;
+}
+
+.close {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 15px 15px 0px 0px;
+  color: #000;
+  font-size: 1rem;
+  position: absolute;
+  top: 0;
+  right: 0;
+  cursor: pointer;
+  font-size: 25px;
+}
+
+.modal-content-image {
+  align-items: center; 
+  justify-content: center; 
+  height: 100%; 
+}
+
+.modal-content{
+  width: 100%;
+  border: none;
+  border-radius: 0px;
+}
+
+.modal-ci{
+  justify-content: center;
+}
+
+.modal-body {
+  text-align: center;
+}
+
+.modal-body > .title {
+  font-family: Arial, sans-serif;
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.modal-body > .content {
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.modal-image-body {
+  background-color: none;
+  //display: flex;
+  //justify-content: center;
+  //width: 100%;
+  //background-color: rgba(0, 0, 0, 0.795);
+}
+
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.795);
+  z-index: 500;
+  display: none;
+}
+
+.modal-backdrop.message{
+  z-index: -50;
+}
+
+.modal-backdrop.d-block {
+  display: block; /* Muestra el fondo cuando se muestra el modal */
+}
+
+.no-border {
+  border: none;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: center;
+}
+
+
+.row-container {
+  display: flex;
+  flex-wrap: wrap;
+  border: 1px solid black;
+}
+
+.header-column {
+  background-color: var(--verticalTable);
+  font-weight: bold;
+  color: #ffffff;
+  font-size: 12px !important;
+  padding: 15px;
+  flex: 1;
+  min-width: 100px;
+  border-right: 1px solid black;
+}
+
+.content-column {
+  padding: 15px;
+  flex: 2; 
+  min-width: 100px; 
+}
