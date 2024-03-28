@@ -1,0 +1,25 @@
+
+
+:host ::ng-deep .p-calendar .p-inputtext {
+    cursor: pointer;
+    height: 39px !important;
+}
+
+:host ::ng-deep .p-button {
+    height: 39px !important;
+}
+
+::ng-deep .p-inputtext:enabled:focus {
+    box-shadow: none !important;
+}
+
+
+
+
+::ng-deep .p-calendar .p-calendar-button {
+    
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    width: 900em;
+    border-left: 0 none;
+}

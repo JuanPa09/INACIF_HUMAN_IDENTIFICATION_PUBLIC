@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ModalType } from 'src/app/models/modal';
 import { HttpService } from 'src/app/services/http/httpService';
 import { HttpServiceImpl } from 'src/app/services/http/httpServiceImpl';
@@ -10,6 +10,8 @@ import { requestSchema } from 'src/app/schemas/request';
 import { ERROR_MESSAGES } from 'src/app/models/httpModel';
 import { ReCaptchaV3Service } from 'ng-recaptcha';
 import { RecaptchaService } from '../../services/recaptcha/recaptcha.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ReCaptcha2Component } from 'ngx-captcha';
 
 declare interface Fields {
   fields: FieldsModel[]
@@ -34,12 +36,15 @@ declare type fieldOwner = "applicant" | "dissappeared";
   styleUrls: ['./request.component.scss']
 })
 export class RequestComponent implements OnInit {
+  @ViewChild('captchaElem') captchaElem!: ReCaptcha2Component;
+
+  aFormGroup!: FormGroup;
+  siteKey!: string;
 
   constructor(
     private httpClient: HttpClient,
     private loaderService: LoaderService,
-    private recaptchaV3Service: ReCaptchaV3Service,
-    private recaptchaService: RecaptchaService
+    private formBuilder: FormBuilder
   ) { 
     this.httpService = new HttpServiceImpl(httpClient);
   }
@@ -71,7 +76,7 @@ export class RequestComponent implements OnInit {
       options: nationalities,
       from: "applicant",
       required: true,
-      value: ''
+      value: 'Guatemalteco'
     }, {
       fieldId: 'applicantIdentificationType',
       fieldName: "Documento de identificación",
@@ -129,7 +134,7 @@ export class RequestComponent implements OnInit {
       size: "small",
       from: "applicant",
       required: true,
-      value: 0
+      value: ''
     }, {
       fieldId: 'applicantEmail',
       fieldName: "Correo",
@@ -278,6 +283,10 @@ export class RequestComponent implements OnInit {
   requestBody: any = {};
 
   ngOnInit(): void {
+    this.aFormGroup = this.formBuilder.group({
+      recaptcha: ['', Validators.required]
+    });
+    this.siteKey = "6Le-iJMpAAAAAK4XZ_dtC_KCQ1C9zcybIWnV-Qs4";
   }
 
   onFileChange(event: any) {
@@ -353,6 +362,7 @@ export class RequestComponent implements OnInit {
   async createNewRequest() {
     const requestFields = this.mapRequestBody(this.requestFields);
     if (!requestFields) {
+      this.reiniciarRecaptcha();
       return;
     }
     const validate = this.ajv.compile(requestSchema);
@@ -370,6 +380,7 @@ export class RequestComponent implements OnInit {
       }
       //window.location.href = "/email/successful";
     } else {
+      this.reiniciarRecaptcha();
       if (validate.errors) {
         const errors: string[] = [];
         for (const error of validate?.errors) {
@@ -423,15 +434,15 @@ export class RequestComponent implements OnInit {
     window.location.reload();
   }
 
-  doRecaptchaValidation(){
-    this.recaptchaV3Service.execute('')
-      .subscribe((token) => {
-        const auxiliar = this.recaptchaService.getToken(token)
-        alert(auxiliar);
-        if (  auxiliar.includes('true') ) {
-          alert('Todo bien')
-        }
-      });
+  calendarOnChange(field: any, event:any){
+    field.value = event.date;
+    console.log(this.requestFields)
+  }
+
+  reiniciarRecaptcha(): void {
+    if (this.captchaElem) {
+      this.captchaElem.resetCaptcha();
+    }
   }
 
 }

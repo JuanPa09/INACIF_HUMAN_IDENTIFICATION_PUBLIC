@@ -1,0 +1,13 @@
+
+    <span class="p-float-label">
+        <p-calendar 
+        #calendar
+        inputId="calendar"
+        [(ngModel)]="rangeDates" 
+        [readonlyInput]="true"
+        (onSelect)="onSelect()"
+        [showIcon]="showIcon"
+        (ngModelChange)="handleOnChange($event)"
+        [maxDate]="maxDate"
+        [style]="{'width':'100%'} "></p-calendar>
+    </span>

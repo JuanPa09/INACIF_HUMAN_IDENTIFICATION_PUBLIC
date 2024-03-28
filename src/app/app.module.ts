@@ -10,9 +10,13 @@ import { EmailConfirmedComponent } from './components/email-confirmed/email-conf
 import { AppRoutingModule } from './app.routing';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ModalComponentModule } from './components/modal/component.module';
 import { RECAPTCHA_V3_SITE_KEY, RecaptchaV3Module } from 'ng-recaptcha';
+import {NgxCaptchaModule} from 'ngx-captcha'
+import { TextComponentModule } from './components/input/component.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CalendarComponentModule } from './components/calendar/component.module';
 
 @NgModule({
   declarations: [
@@ -26,10 +30,18 @@ import { RECAPTCHA_V3_SITE_KEY, RecaptchaV3Module } from 'ng-recaptcha';
     FormsModule,
     RouterModule,
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
     ModalComponentModule,
-    RecaptchaV3Module
+    RecaptchaV3Module,
+    TextComponentModule,
+    CalendarComponentModule,
+
+    // V2
+    NgxCaptchaModule,
+    ReactiveFormsModule,
+    FormsModule
   ],
   providers: [
     { provide: RECAPTCHA_V3_SITE_KEY, useValue: "6Le47oYpAAAAAH0tS7MfGYYAPWmB7v6Ot4N5r1Kx" }
