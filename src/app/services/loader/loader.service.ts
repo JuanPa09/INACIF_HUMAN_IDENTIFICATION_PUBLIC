@@ -8,12 +8,10 @@ export class LoaderService {
   constructor() { }
 
   startLoading(){
-    //console.log("Cargando loader")
     this.isLoading = true;
   }
 
   stopLoading(pa?:string){
-    //console.log("Parando loader desde: " + pa)
     this.isLoading = false;
   }
 

@@ -17,13 +17,15 @@ import {NgxCaptchaModule} from 'ngx-captcha'
 import { TextComponentModule } from './components/input/component.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CalendarComponentModule } from './components/calendar/component.module';
+import { LoaderComponent } from './components/loader/loader.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     RequestComponent,
     EmailSuccessfulComponent,
-    EmailConfirmedComponent
+    EmailConfirmedComponent,
+    LoaderComponent
   ],
   imports: [
     CommonModule,

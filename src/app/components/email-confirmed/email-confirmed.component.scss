@@ -1,67 +1,10 @@
-.new-request-screen{
-    background-color: #ffff;
-    padding-bottom: 15px;
+.block-request{
+    text-align: center;
+    margin-top: 15px;
+    font-size: 20px;
+    font-family: 'Times New Roman', Times, serif;
 }
 
-.logo-inacif{
-    display: flex;
-    justify-content: center;
-    padding-top: 20px;
-    margin-bottom: 20px;
-}
-
-.separator {
-    height: 5px;
-    background-color: rgb(25, 62, 143);
-    margin-bottom: 25px;
-}
-
-.inacif-form-request{
-    border-radius: 10px;
-    padding: 25px;
-    padding-bottom: 25px;
-    margin-bottom: 15px !important;
-    padding-bottom: 15px !important;
-    background-color: #ffff;
-}
-
-.content-container {
-    border: 1px solid black;
-    border-radius: 10px;
-}
-
-.form-subtitle{
-    color: rgb(58, 56, 56);
-    font-size: large;
-    margin-bottom: 10px;
-}
-
-.form-field-name{
-    font-weight: normal;
-}
-
-.form-field-name{
-    font-size: 15px;
-    font-weight: 500;
-}
-
-
-.form-group{
-    margin-bottom: 10px;
-}
-
-//*
-.radio-btn-container{
-    display: flex;
-    flex-direction: row;
-    gap: 10px
-}
-
-.form-title{
-    font-size: 25px;
+.block-request span{
     font-weight: bold;
-    display: flex;
-    justify-content: center;
-    padding-bottom: 25px;
-    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }

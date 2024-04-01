@@ -5,6 +5,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RequestComponent } from './components/request/request.component';
 import { EmailSuccessfulComponent } from './components/email-successful/email-successful.component';
 import { EmailConfirmedComponent } from './components/email-confirmed/email-confirmed.component';
+import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
     {
@@ -17,10 +18,15 @@ const routes: Routes = [
         component: RequestComponent,
     },{
         path: 'email/successful',
-        component: EmailSuccessfulComponent
+        component: EmailSuccessfulComponent,
+        canActivate: [AuthGuard]
     },{
         path: 'email/confirmed',
         component: EmailConfirmedComponent
+    },
+    {
+        path: '**',
+        redirectTo: 'solicitud'
     }
 ];
 

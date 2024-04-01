@@ -372,13 +372,13 @@ export class RequestComponent implements OnInit {
         this.loaderService.startLoading();
         await this.httpService.post("request", requestFields);
         this.showSuccessMessage = true;
+        window.location.href = "/email/successful";
         //this.showModalType("Solicitud creada correctamente", `La solicitud se ha creado con éxito`, undefined, undefined, "message");
       } catch (error) {
         this.showModalType(ERROR_MESSAGES.INTERNAL_ERROR.title, ERROR_MESSAGES.INTERNAL_ERROR.message, undefined, undefined, "message");
       } finally {
         this.loaderService.stopLoading()
       }
-      //window.location.href = "/email/successful";
     } else {
       this.reiniciarRecaptcha();
       if (validate.errors) {
