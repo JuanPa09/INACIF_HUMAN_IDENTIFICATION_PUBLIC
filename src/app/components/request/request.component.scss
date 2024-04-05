@@ -138,3 +138,13 @@
         width: 80%; /* Ajusta el ancho para pantallas más pequeñas */
       }
     }
+
+  input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+  }
+
+  .text-counter{
+    font-size: 0.7rem;
+    display: flex;
+    justify-content: right;
+  }

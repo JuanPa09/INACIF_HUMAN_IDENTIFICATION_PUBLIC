@@ -16,7 +16,7 @@ export const requestSchema = {
       disappearedSecondName: { type: 'string' },
       disappearedOtherNames: { type: 'string' },
       disappearedLastName: { type: 'string', minLength: 2 },
-      disappearedSecondLastName: { type: 'string', minLength: 2 },
+      disappearedSecondLastName: { type: 'string'},
       disappearedBirthdate: { type: 'string', minLength: 1, },
       disappearedHeight: { type: 'number', minimum: 50, maximum: 230 },
       disappearedMunicipality: { type: 'string', enum: departmentsNames },

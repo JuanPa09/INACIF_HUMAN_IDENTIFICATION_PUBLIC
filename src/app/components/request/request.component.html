@@ -29,7 +29,10 @@
                             class="default-input-container">
                             <div class="form-group">
                                 <label class="form-field-name" [for]="field.fieldName">{{field.required ? '* ' : '' }}{{field.fieldName}}</label>
-                                <input [type]="field.type" [name]="field.fieldName" class="form-control" [id]="field.fieldName" [(ngModel)]="field.value">
+                                <input (input)="onInputChange($event, field)" (keydown)="keyDownControl($event, field)" [type]="field.type" [name]="field.fieldName" class="form-control" [id]="field.fieldName" [(ngModel)]="field.value" [maxLength]="field.length ?? 250">
+                                <label [for]="field.fieldName" class="text-counter">
+                                {{field.value.length}}/{{field.length}}
+                                </label>
                             </div>
                         </div>
                         <!-- CALENDAR -->
@@ -64,7 +67,7 @@
                 </div>
                 <!-- MISSING PERSON INFO -->
                 <div class="row">
-                    <h4>INFORMACIÓN DE LA PERSONA DESPARECIDA</h4>
+                    <h4>INFORMACIÓN DE LA PERSONA DESAPARECIDA</h4>
                     <span class="form-subtitle">CAMPOS OBLIGATORIOS CON (*)</span>
                     <div *ngFor="let field of getFilteredFields('dissappeared')" [ngClass]="getFieldClass(field)">
                         <!-- RADIO BUTTONS -->
@@ -82,7 +85,10 @@
                             class="default-input-container">
                             <div class="form-group">
                                 <label class="form-field-name" [for]="field.fieldName">{{field.required ? '* ' : '' }}{{field.fieldName}}</label>
-                                <input [type]="field.type" [name]="field.fieldName" class="form-control" [id]="field.fieldName" [(ngModel)]="field.value">
+                                <input (input)="onInputChange($event, field)" (keydown)="keyDownControl($event, field)" [type]="field.type" [name]="field.fieldName" class="form-control" [id]="field.fieldName" [(ngModel)]="field.value" [maxLength]="field.length ?? 250">
+                                <label [for]="field.fieldName" class="text-counter">
+                                {{field.value.length}}/{{field.length}}
+                                </label>
                             </div>
                         </div>
                         <!-- CALENDAR -->
@@ -91,7 +97,7 @@
                             <div class="form-group">
                                 <label class="form-field-name" [for]="field.fieldName">{{field.required ? '* ' : '' }}{{field.fieldName}}</label>
                                 <inacif-calendar
-                                (onChange)="calendarOnChange(field,$event)">
+                                (input)="calendarOnChange(field,$event)">
                                 </inacif-calendar>
                                 <!-- <input [type]="field.type" [name]="field.fieldName" class="form-control" [id]="field.fieldName" [(ngModel)]="field.value"> -->
                             </div>

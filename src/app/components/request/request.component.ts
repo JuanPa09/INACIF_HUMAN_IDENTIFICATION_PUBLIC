@@ -25,6 +25,7 @@ declare interface FieldsModel {
   from: fieldOwner;
   required: boolean;
   value?: any;
+  length?: number
 }
 declare type fieldSize = "small" | "medium" | "expanded";
 declare type fieldType = "radioButton" | "text" | "image" | "number" | "date" | "select";
@@ -93,7 +94,8 @@ export class RequestComponent implements OnInit {
       size: "small",
       from: "applicant",
       required: true,
-      value: ''
+      value: '',
+      length: 13
     }, {
       fieldId: 'applicantBirthdate',
       fieldName: "Fecha de nacimiento",
@@ -109,7 +111,8 @@ export class RequestComponent implements OnInit {
       size: "small",
       from: "applicant",
       required: true,
-      value: ''
+      value: '',
+      length: 120
     }, {
       fieldId: 'applicantLastNames',
       fieldName: "Apellidos",
@@ -117,7 +120,8 @@ export class RequestComponent implements OnInit {
       size: "small",
       from: "applicant",
       required: true,
-      value: ''
+      value: '',
+      length: 70
     }, {
       fieldId: 'applicantSex',
       fieldName: "Sexo",
@@ -134,7 +138,8 @@ export class RequestComponent implements OnInit {
       size: "small",
       from: "applicant",
       required: true,
-      value: ''
+      value: '',
+      length: 8
     }, {
       fieldId: 'applicantEmail',
       fieldName: "Correo",
@@ -142,7 +147,8 @@ export class RequestComponent implements OnInit {
       size: "small",
       from: "applicant",
       required: true,
-      value: ''
+      value: '',
+      length: 70
     }, {
       fieldId: 'disappearedFirstName',
       fieldName: "Primer Nombre",
@@ -150,7 +156,8 @@ export class RequestComponent implements OnInit {
       size: "small",
       from: "dissappeared",
       required: true,
-      value: ''
+      value: '',
+      length: 30
     }, {
       fieldId: 'disappearedSecondName',
       fieldName: "Segundo Nombre",
@@ -158,7 +165,8 @@ export class RequestComponent implements OnInit {
       size: "small",
       from: "dissappeared",
       required: false,
-      value: ''
+      value: '',
+      length: 30
     }, {
       fieldId: 'disappearedOtherNames',
       fieldName: "Otros Nombres",
@@ -166,7 +174,8 @@ export class RequestComponent implements OnInit {
       size: "small",
       from: "dissappeared",
       required: false,
-      value: ''
+      value: '',
+      length: 30
     }, {
       fieldId: 'disappearedLastName',
       fieldName: "Primer Apellido",
@@ -174,15 +183,17 @@ export class RequestComponent implements OnInit {
       size: "small",
       from: "dissappeared",
       required: true,
-      value: ''
+      value: '',
+      length: 30
     }, {
       fieldId: 'disappearedSecondLastName',
       fieldName: "Segundo Apellido",
       type: "text",
       size: "small",
       from: "dissappeared",
-      required: true,
-      value: ''
+      required: false,
+      value: '',
+      length: 30
     }, {
       fieldId: 'disappearedBirthdate',
       fieldName: "Fecha de nacimiento",
@@ -198,7 +209,8 @@ export class RequestComponent implements OnInit {
       size: "small",
       from: "dissappeared",
       required: false,
-      value: ''
+      value: '',
+      length: 3
     }, {
       fieldId: 'disappearedMunicipality',
       fieldName: "Municipio",
@@ -251,7 +263,8 @@ export class RequestComponent implements OnInit {
       size: "small",
       from: "dissappeared",
       required: false,
-      value: ''
+      value: '',
+      length: 3
     }, {
       fieldId: 'disappearedSex',
       fieldName: "Sexo",
@@ -276,7 +289,8 @@ export class RequestComponent implements OnInit {
       size: "expanded",
       from: "dissappeared",
       required: false,
-      value: ''
+      value: '',
+      length: 250
     }]
   }
 
@@ -334,7 +348,7 @@ export class RequestComponent implements OnInit {
       }
       if (field.fieldId === 'applicantBirthdate') {
         if (!this.validateDate(field.value, 18)) {
-          this.showModalType("Fecha del solicitante inválda", `El solicitante tiene que tener al menos 18 años`, undefined, undefined, "message");
+          this.showModalType("Fecha del solicitante inválida", `El solicitante tiene que tener al menos 18 años`, undefined, undefined, "message");
           return;
         }
       }
@@ -443,6 +457,56 @@ export class RequestComponent implements OnInit {
     if (this.captchaElem) {
       this.captchaElem.resetCaptcha();
     }
+  }
+
+  keyDownControl(event:any, field: FieldsModel){
+    if(field.type === "number"){
+      if (event.key === '-' || (event.ctrlKey && event.key === 'v')) {
+        event.preventDefault();
+      }
+    }
+  }
+
+  onInputChange(event: any, field: FieldsModel) {
+    let inputValue = event.target.value;
+    
+    if (field.type === "text") {
+      var regex = /^[a-zA-Z]*$/;
+      var regexValidator = /[^a-zA-Z]/g;
+      if (field.fieldName === "Correo") {
+          regex = /^[a-zA-Z@._-]*$/;
+          regexValidator = /[^a-zA-Z@._-]/g;
+      }
+  
+      if (!regex.test(field.value)) {
+          // Si no coincide, eliminar los caracteres no permitidos
+          field.value = field.value.replace(regexValidator, '');
+          event.target.value = field.value;
+      }
+    }
+
+    if(field.type === "number"){
+      let regex = /^-?\d*\.?\d+$/
+      if(!regex.test(inputValue)){
+        field.value = field.value.replace(regex, '');
+        event.target.value = field.value;
+      }
+      // Validar la longitud
+      if(field.length){
+        if (inputValue.length > field.length) {
+          inputValue = inputValue.slice(0, field.length);
+          event.target.value = inputValue;
+          field.value = inputValue;
+        }
+      }
+
+      // Validar si el valor es negativo
+      if (parseFloat(inputValue) < 0) {
+        event.target.value = '0';
+      }
+
+    }
+
   }
 
 }
