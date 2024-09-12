@@ -97,7 +97,7 @@
                             <div class="form-group">
                                 <label class="form-field-name" [for]="field.fieldName">{{field.required ? '* ' : '' }}{{field.fieldName}}</label>
                                 <inacif-calendar
-                                (input)="calendarOnChange(field,$event)">
+                                (onChange)="calendarOnChange(field,$event)">
                                 </inacif-calendar>
                                 <!-- <input [type]="field.type" [name]="field.fieldName" class="form-control" [id]="field.fieldName" [(ngModel)]="field.value"> -->
                             </div>
