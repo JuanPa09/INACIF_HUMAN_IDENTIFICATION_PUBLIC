@@ -1,12 +1,12 @@
 <div class="new-request-screen" *ngIf="!showSuccessMessage">
-    <a class="logo-inacif" routerLink="/email/confirmed">
-        <img class="logo" src="../../assets/img/logo-inacif.png" alt="logo">
+    <a class="logo-inacif">
+        <img class="logo" src="assets/img/logo-inacif.png" alt="logo">
     </a>
     <div class="separator"></div>
     <div class="form-title">
-        Formulario para solicitud de persona desaparecida
+        Solicitud Por Desaparición De Personas
     </div>
-    <div class="content-container container">
+    <div class="content-container">
         <h4>INFORMACIÓN DEL SOLICITANTE</h4>
         <span class="form-subtitle">CAMPOS OBLIGATORIOS CON (*)</span>
         <form>
@@ -125,7 +125,9 @@
                     <form [formGroup]="aFormGroup">
                         <ngx-recaptcha2 #captchaElem
                             [siteKey]="siteKey"
-                            formControlName="recaptcha">
+                            formControlName="recaptcha"
+                            (success)="onCaptchaResolved($event)"
+                            >
                         </ngx-recaptcha2>
                     </form>
                 </div>
@@ -148,11 +150,11 @@
     <div class="block-form">
         <div class="block">
             <a class="logo-inacif" href="/solicitud">
-                <img class="logo" src="../../assets/img/logo-inacif.png" alt="logo">
+                <img class="logo" src="assets/img/logo-inacif.png" alt="logo">
             </a>
             <div class="title">¡Solicitud Enviada Correctamente!</div>
             <div class="image">
-                <img src="../../assets/img/check.png" alt="logo">
+                <img src="assets/img/check.png" alt="logo">
             </div>
             <div class="text">Recibirá un correo con los detalles que debe seguir para continuar con el proceso de la solicitud</div>
             <div class="block-button">

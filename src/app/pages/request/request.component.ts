@@ -12,6 +12,9 @@ import { ReCaptchaV3Service } from 'ng-recaptcha';
 import { RecaptchaService } from '../../services/recaptcha/recaptcha.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReCaptcha2Component } from 'ngx-captcha';
+import { APP_BASE_HREF } from '@angular/common';
+import { environment } from 'src/environments/environment';
+
 
 declare interface Fields {
   fields: FieldsModel[]
@@ -34,13 +37,15 @@ declare type fieldOwner = "applicant" | "dissappeared";
 @Component({
   selector: 'app-request',
   templateUrl: './request.component.html',
-  styleUrls: ['./request.component.scss']
+  styleUrls: ['./request.component.scss'],
+  providers: [{provide: APP_BASE_HREF, useValue: './'}]
 })
 export class RequestComponent implements OnInit {
   @ViewChild('captchaElem') captchaElem!: ReCaptcha2Component;
 
   aFormGroup!: FormGroup;
-  siteKey!: string;
+  siteKey: string = environment.recaptchaSiteKey;
+  reCAPTCHAToken:string = '';
 
   constructor(
     private httpClient: HttpClient,
@@ -50,7 +55,7 @@ export class RequestComponent implements OnInit {
     this.httpService = new HttpServiceImpl(httpClient);
   }
 
-  classSmall = "col-4";
+  classSmall = "col-lg-4 col-md-6 col-sm-12";
   classMedium = "col-8";
   classExpanded = "col-12";
   base64Image: string = '';
@@ -90,7 +95,7 @@ export class RequestComponent implements OnInit {
     }, {
       fieldId: 'applicantIdentificationNumber',
       fieldName: "No. Identificación",
-      type: "text",
+      type: "number",
       size: "small",
       from: "applicant",
       required: true,
@@ -276,7 +281,7 @@ export class RequestComponent implements OnInit {
       value: ''
     }, {
       fieldId: 'image',
-      fieldName: "Fotografía",
+      fieldName: "Fotografía (.png o .jpeg)",
       type: "image",
       size: "small",
       from: "dissappeared",
@@ -300,23 +305,38 @@ export class RequestComponent implements OnInit {
     this.aFormGroup = this.formBuilder.group({
       recaptcha: ['', Validators.required]
     });
-    this.siteKey = "6Le-iJMpAAAAAK4XZ_dtC_KCQ1C9zcybIWnV-Qs4";
   }
 
   onFileChange(event: any) {
     const file = event.target.files[0];
+    const allowedFileTypes = ["jpeg", "png"];
+
     if (file) {
       if (file.type.startsWith('image/')) {
         const reader = new FileReader();
         reader.onload = (e) => {
           this.base64Image = e.target?.result?.toString().split(",")[1] || "";
         };
+
+        const fileType = file.type.toString().split("/")[1];
+        if(!allowedFileTypes.includes(fileType)){
+          this.showModalType("Formato de imagen inválido", `La extensión de la imagen debe de ser .jpeg o .png`, undefined, undefined, "message");
+          event.target.value = '';
+        }
+
         reader.readAsDataURL(file);
       } else {
         this.showModalType("Formato de archivo inválido", `El formato del archivo tiene que ser una imágen de la persona desaparecida`, undefined, undefined, "message");
         event.target.value = '';
       }
+      
+
+
     }
+  }
+
+  onCaptchaResolved(token: string): void {
+    this.reCAPTCHAToken = token;
   }
 
   getFieldClass(field: FieldsModel) {
@@ -384,7 +404,7 @@ export class RequestComponent implements OnInit {
     if (isValid) {
       try {
         this.loaderService.startLoading();
-        await this.httpService.post("request", requestFields);
+        await this.httpService.post(`request?recaptcha=${this.reCAPTCHAToken}`, requestFields);
         this.showSuccessMessage = true;
         window.location.href = "/email/successful";
         //this.showModalType("Solicitud creada correctamente", `La solicitud se ha creado con éxito`, undefined, undefined, "message");
@@ -400,7 +420,6 @@ export class RequestComponent implements OnInit {
         for (const error of validate?.errors) {
           const field = this.requestFields.fields.find((field)=> field.fieldId === error.instancePath.replace("/", ""));
           errors.push(`\n • ${field?.fieldName}`);
-          //errors.push(`\n${error.instancePath.replace("/", "")}: ${error?.message}`);
         }
         this.showModalType("Verificar campos", `Verifique los siguientes campos con problemas: ${errors.join()}`, undefined, this.cerrarModal, "message");
       }
@@ -471,11 +490,11 @@ export class RequestComponent implements OnInit {
     let inputValue = event.target.value;
     
     if (field.type === "text") {
-      var regex = /^[a-zA-Z]*$/;
-      var regexValidator = /[^a-zA-Z]/g;
+      let regex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]*$/; // Acepta letras con tildes y la ñ
+      let regexValidator = /[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g;
       if (field.fieldName === "Correo") {
-          regex = /^[a-zA-Z@._-]*$/;
-          regexValidator = /[^a-zA-Z@._-]/g;
+        regex = /^[a-zA-Z0-9@._-]*$/;
+        regexValidator = /[^a-zA-Z0-9@._-]/g;
       }
   
       if (!regex.test(field.value)) {

@@ -5,7 +5,7 @@ export const requestSchema = {
     properties: {
       applicantNationality: { type: 'string', enum: nationalities },
       applicantIdentificationType: { type: 'string', enum: identificationType },//
-      applicantIdentificationNumber: { type: 'string', minLength: 7 },//
+      applicantIdentificationNumber: { type: 'number', minLength: 7 },//
       applicantBirthdate: { type: 'string', minLength: 1  },///
       applicantNames: { type: 'string', minLength: 3 },//
       applicantLastNames: { type: 'string', minLength: 3 },

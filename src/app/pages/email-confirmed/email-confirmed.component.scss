@@ -8,3 +8,13 @@
 .block-request span{
     font-weight: bold;
 }
+
+@media (max-width: 768px) {
+    .block-request{
+        font-size: 16px;
+    }
+
+    .block-request span{
+        font-size: 16px;
+    }
+}

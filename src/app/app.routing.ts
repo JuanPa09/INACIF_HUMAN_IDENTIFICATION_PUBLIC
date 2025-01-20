@@ -2,9 +2,9 @@ import { Routes, RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
-import { RequestComponent } from './components/request/request.component';
-import { EmailSuccessfulComponent } from './components/email-successful/email-successful.component';
-import { EmailConfirmedComponent } from './components/email-confirmed/email-confirmed.component';
+import { RequestComponent } from './pages/request/request.component';
+import { EmailSuccessfulComponent } from './pages/email-successful/email-successful.component';
+import { EmailConfirmedComponent } from './pages/email-confirmed/email-confirmed.component';
 import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [

@@ -4,11 +4,13 @@ import { ActivatedRoute } from '@angular/router';
 import { HttpService } from 'src/app/services/http/httpService';
 import { HttpServiceImpl } from 'src/app/services/http/httpServiceImpl';
 import { LoaderService } from 'src/app/services/loader/loader.service';
+import {APP_BASE_HREF} from '@angular/common';
 
 @Component({
   selector: 'app-email-confirmed',
   templateUrl: './email-confirmed.component.html',
-  styleUrls: ['./email-confirmed.component.scss', '../../styles/emails/index.scss']
+  styleUrls: ['./email-confirmed.component.scss', '../../styles/emails/index.scss'],
+  providers: [{provide: APP_BASE_HREF, useValue: './'}]
 })
 export class EmailConfirmedComponent implements OnInit {
 
@@ -36,6 +38,7 @@ export class EmailConfirmedComponent implements OnInit {
         }
         this.loaderService.stopLoading();
       } catch (error) {
+        alert("Error en api")
         window.location.href = this.homePage
       }
     });
